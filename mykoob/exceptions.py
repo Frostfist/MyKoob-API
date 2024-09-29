@@ -30,6 +30,16 @@ class NoAccessTokenError(Exception):
         return f"NoAccessTokenError: {self.message}"
 
 
+class NoTokenError(Exception):
+    """Exception raised when no token is available."""
+
+    def __init__(self, message="Access token is missing or None"):
+        self.message = message
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f"NoAccessTokenError: {self.message}"
+
 class NoUserError(Exception):
     """Exception raised when no user is available."""
     def __init__(self, message="No user available"):

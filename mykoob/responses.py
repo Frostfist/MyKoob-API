@@ -10,7 +10,6 @@ class AuthResponse:
             self.error = "No data provided"
 
     def is_successful(self):
-        # Assuming the presence of 'access_token' indicates success
         return getattr(self, 'access_token', None) is not None and self.error is None
     
     def json(self):
