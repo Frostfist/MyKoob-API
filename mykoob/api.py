@@ -1,9 +1,3 @@
-"""
-TODO: user_activities is where contains homework, grades and etc.
-TODO: add docstring
-
-
-"""
 from mykoob.auth import Session
 from .models import Url, User, Lesson, Attendance, Homework
 from . import responses, exceptions
