@@ -2,7 +2,6 @@ from mykoob.auth import Session
 from .models import Url, User, Lesson, Attendance, Homework
 from . import responses, exceptions
 from .utils import show, token_required
-
 import requests
 
 
@@ -79,10 +78,18 @@ class MyKoob:
             }, timeout=10)
 
             lessons: list[Lesson] = []
+            modified_response = response.json().get('lessonsplan', {}).get('dates', [])
 
-            for date in response.json().get('lessonsplan', {}).get('dates', []):
+            if modified_response == []:
+                raise exceptions.BadResponseError("Lessons plan couldn't be caught.")
+            
+            for date in modified_response:
                 for lesson in date.get('lessons', []):
                     lessons.append(Lesson(data=lesson))
+
+            if lessons == []:
+                raise exceptions.NoLessonsError
+                
 
             show("Lessons plan is got successfully fetched from MyKoob API")
 

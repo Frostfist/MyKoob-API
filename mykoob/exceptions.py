@@ -29,6 +29,27 @@ class NoAccessTokenError(Exception):
     def __str__(self):
         return f"NoAccessTokenError: {self.message}"
 
+class NoLessonsError(Exception):
+    """Exception raised when no lessons retrieved by request"""
+
+    def __init__(self, message="No lessons in request json!"):
+        self.message = message
+        super().__init__(self.message)
+        
+    def __str__(self) -> str:
+        return f"NoLessonsError: {self.message}"
+
+
+class BadResponseError(Exception):
+    """Exception raised when bad response retrieved"""
+    
+    def __init__(self, message="Bad response. Maybe, some errors."):
+        self.message = message
+        super().__init__(self.message)
+        
+    def __str__(self):
+        return f"BadResponseError: {self.message}"
+
 
 class NoTokenError(Exception):
     """Exception raised when no token is available."""

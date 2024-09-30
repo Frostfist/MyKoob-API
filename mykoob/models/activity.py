@@ -10,4 +10,5 @@ class Activity:
         self.note = data.get("note", None)
         self.creator_name = data.get("creator_name", None)
 
-        
+    def __repr__(self) -> str:
+        return f"Activity(name={self.discipline_name}, grade={self.grade_value})"
