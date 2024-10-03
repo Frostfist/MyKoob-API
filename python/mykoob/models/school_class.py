@@ -1,5 +1,3 @@
-from mykoob.utils import show
-
 class SchoolClass:
     def __init__(self, data: dict):
         self.id = data['school_classes_id']

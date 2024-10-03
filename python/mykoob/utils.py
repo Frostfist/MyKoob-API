@@ -6,10 +6,10 @@ def convert_lessons_to_json(lessons: list[Lesson]) -> dict:
     lessons_json = [lesson.__dict__ for lesson in lessons]
     return {"lessons": lessons_json}
 def show(info) -> None:
-    print("[+] " + info + "\n")
+    print(f"[+] {info} \n")
 
 def warn(info) -> None:
-    print("[!] " + info + "\n")
+    print(f"[!] {info} \n")
 
 
 def token_required(func):

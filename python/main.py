@@ -10,12 +10,6 @@ if __name__ == '__main__':
     mykoob = MyKoob(session=session)
     
     auth_response = mykoob.authorize()
-    
-    print(mykoob.get_lessons_plan("2024-09-30", "2024-09-30"))
-    
-    # with open('secret/activities.json', 'w') as activities_file:
-    #     json.dump(mykoob.send_post_timetable(api="user_activities", date_from=DATE_FROM, date_to=DATE_TO), activities_file, indent=4)
-    
-    # print(session)
-    
-    # lessons = mykoob.get_lessons_plan(DATE_FROM, DATE_TO)
+    for day in mykoob.get_lessons_plan("2024-10-03", "2024-10-03"):
+        for lesson in day:
+            print(lesson)
