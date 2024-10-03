@@ -69,3 +69,13 @@ class NoUserError(Exception):
         
     def __str__(self):
         return f"NoUserError: {self.message}"
+
+
+class ClassNotFoundError(Exception):
+    """Exception raised when class is not found."""
+    def __init__(self, message="Class not found"):
+        self.message = message
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f"ClassNotFoundError: {self.message}"

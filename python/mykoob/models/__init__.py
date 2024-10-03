@@ -1,6 +1,6 @@
 from .email import Email
 from .password import Password
-from .urls import Url
+from .custom_enums import Url
 from .user import User
 from .lesson import Lesson
 from .attendance import Attendance

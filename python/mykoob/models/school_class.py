@@ -5,4 +5,4 @@ class SchoolClass:
         self.students_id = data['school_classes_students_id']
 
     def __repr__(self) -> str:
-        return f"Class(name={self.name})"
+        return f"Class(name={self.name}, id={self.id}, students_id={self.students_id})"

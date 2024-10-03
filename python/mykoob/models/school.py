@@ -1,5 +1,5 @@
 from .school_class import SchoolClass
-from python.mykoob.utils import show
+from mykoob.utils import show
 
 class School:
     def __init__(self, data: dict):

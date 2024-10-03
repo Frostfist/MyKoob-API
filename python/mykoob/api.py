@@ -60,49 +60,78 @@ class MyKoob:
     @token_required
     def get_lessons_plan(self, date_from: str, date_to: str) -> list[list[Lesson]]:
         """
-        :param date_from: start date in YYYY-MM-DD format 
+        Fetch lessons plan for all classes within the given date range.
+
+        :param date_from: start date in YYYY-MM-DD format
         :param date_to:  end date in YYYY-MM-DD format
-        :return: 
+        :return: List of lessons for each class.
         """
-        
         output: list[list[Lesson]] = []
-        
+
         for school_class in self.session.user.school.school_classes:
             show(f"Working with {school_class.name}")
-            
-            try:
-                response = requests.post(Url.RESOURCE, data={
-                    'api': 'user_lessonsplan',
-                    'access_token': self.session.token,
-                    'date_from': date_from,
-                    'date_to': date_to,
-                    'school_classes_id': school_class.students_id,
-                    'school_user_id': self.session.user.school.user_id,
-                }, timeout=10)
-    
-                lessons: list[Lesson] = []
-                modified_response = response.json().get('lessonsplan', {}).get('dates', [])
-                
-                if not modified_response:
-                    raise exceptions.BadResponseError("Lessons plan couldn't be caught.")
-    
-                for date in modified_response:
-                    for lesson in date.get('lessons', []):
-                        lessons.append(Lesson(data=lesson))
-    
-                if not lessons:
-                    raise exceptions.NoLessonsError
-    
-                output.append(lessons)
-                
-                show("Lessons plan is got successfully fetched from MyKoob API")
-                
-    
-            except exceptions.NotAuthenticatedError:
-                raise exceptions.NotAuthenticatedError("You are not authenticated.")
-        
+            lessons = self._fetch_lessons_plan(date_from, date_to, school_class.id)
+            output.append(lessons)
+
         return output
-        
+
+    @token_required
+    def get_lessons_plan_in_class(self, date_from: str, date_to: str, class_name: str) -> list[Lesson]:
+        """
+        Fetch lessons plan for a specific class within the given date range.
+
+        :param date_from: start date in YYYY-MM-DD format
+        :param date_to:  end date in YYYY-MM-DD format
+        :param class_name: The name of the class for which the lessons plan is fetched.
+        :return: List of lessons for the specific class.
+        """
+        # Find the class by name
+        school_class = next((cls for cls in self.session.user.school.school_classes if cls.name == class_name), None)
+
+        if not school_class:
+            raise exceptions.ClassNotFoundError(f"Class '{class_name}' not found.")
+
+        return self._fetch_lessons_plan(date_from, date_to, school_class.id)
+
+    def _fetch_lessons_plan(self, date_from: str, date_to: str, class_id: int) -> list[Lesson]:
+        """
+        Private method to handle the API request and lesson fetching logic.
+
+        :param date_from: start date in YYYY-MM-DD format
+        :param date_to: end date in YYYY-MM-DD format
+        :param class_id: The ID of the class for which the lessons plan is fetched.
+        :return: List of lessons for the specific class.
+        """
+        try:
+            response = requests.post(Url.RESOURCE, data={
+                'api': 'user_lessonsplan',
+                'access_token': self.session.token,
+                'date_from': date_from,
+                'date_to': date_to,
+                'school_classes_id': class_id,
+                'school_user_id': self.session.user.school.user_id,
+            }, timeout=10)
+
+            lessons: list[Lesson] = []
+            modified_response = response.json().get('lessonsplan', {}).get('dates', [])
+
+            if not modified_response:
+                raise exceptions.BadResponseError("Lessons plan couldn't be caught.")
+
+            for date in modified_response:
+                for lesson in date.get('lessons', []):
+                    lessons.append(Lesson(data=lesson))
+
+            if not lessons:
+                raise exceptions.NoLessonsError
+
+            show("Lessons plan successfully fetched from MyKoob API")
+            return lessons
+
+        except exceptions.NotAuthenticatedError:
+            raise exceptions.NotAuthenticatedError("You are not authenticated.")
+
+    
     @token_required
     def get_attendance(self, date_from: str, date_to: str) -> Attendance:
         ...  # TODO: Make attendance list from date to date.
