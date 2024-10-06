@@ -11,10 +11,5 @@ if __name__ == '__main__':
     
     auth_response = mykoob.authorize()
     
-    lessons_plan = mykoob.get_lessons_plan_in_class("2024-10-03", "2024-10-03", class_name="9.cl")
+    lessons_plan = mykoob.get_lessons_plan_in_class("2024-10-04", "2024-10-04", class_name="9.cl")
     
-    corrected_lessons_plan = remove_empty_lessons(lessons_plan)    
-                
-    for i in corrected_lessons_plan:
-        print(i)
-        

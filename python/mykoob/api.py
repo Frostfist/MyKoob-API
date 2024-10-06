@@ -1,4 +1,4 @@
-from python.mykoob.auth import Session
+from .auth import Session
 from .models import Url, User, Lesson, Attendance, Homework
 from . import responses, exceptions
 from .utils import show, token_required
@@ -28,23 +28,6 @@ class MyKoob:
 
         return requests.post(Url.RESOURCE, data=data, timeout=10).json()
 
-    @token_required
-    def _post_timetable(self, api: str, date_from: str, date_to: str) -> dict:
-        """
-        :param date_from: start date in YYYY-MM-DD format 
-        :param date_to:  end date in YYYY-MM-DD format
-        :return: 
-        """
-        data = {
-            'api': api,
-            'access_token': self.session.token,
-            'date_from': date_from,
-            'date_to': date_to,
-            'school_classes_id': 106578,
-            'school_user_id': self.session.user.school.user_id
-        }
-
-        return requests.post(Url.RESOURCE, data=data, timeout=10).json()
 
     @token_required
     def get_user_data(self) -> User:
@@ -151,6 +134,8 @@ class MyKoob:
             'username': self.session.email,
             'password': self.session.password,
         }, timeout=10)
+    
+        print(response.json())        
 
         try:
             self.session._access_token = response.json()['access_token']
