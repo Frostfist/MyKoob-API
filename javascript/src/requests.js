@@ -8,19 +8,16 @@ import qs from 'qs';
  * @param {object} data - The data to be sent in the request body.
  * @returns {Promise<object>} - The response data from the request.
  */
-export async function post(url, data) {
+export function post(url, data) {
     try {
-        const response = await axios.post(url, qs.stringify(data), {
+        return axios.post(url, qs.stringify(data), {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             timeout: 10000
         });
-
-        return response.data;
     } catch (error) {
-        // Handle error
         console.error('Error in POST request:', error.response ? error.response.data : error.message);
-        throw error; // Rethrow error for further handling if needed
+        throw error;
     }
 }

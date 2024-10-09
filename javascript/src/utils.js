@@ -20,6 +20,7 @@ function convertLessonsToJson(lessons) {
  * @param {Lesson[]} lessons - The array of Lesson objects.
  * @returns {Lesson[]} - The filtered array of lessons.
  */
+// Is not working now, because .filter()
 function removeEmptyLessons(lessons) {
     return lessons.filter(lesson => lesson.discipline);
 }

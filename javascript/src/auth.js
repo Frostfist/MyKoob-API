@@ -9,20 +9,25 @@ class Session {
      * @param {string} password - User's password
      */
     constructor(email, password) {
-        this.email = email;
-        this.password = password;
-        this.accessToken = null;
-        this.user = null;
+        this._email = email;
+        this._password = password;
+        this.accessToken = undefined;
+        this.user = undefined;
 
         show("Session constructed");
     }
-
-    /**
-     * Get the access token
-     * @returns {string|null} - The access token or null if not available
-     */
-    get token() {
-        return this.accessToken;
+    
+    getCredentials() {
+        return {
+            email: this._email,
+            password: this._password,
+        }
+    }
+    
+    getSchool() {
+        if(this.user) {
+            return this.user.getSchool();
+        }
     }
 }
 

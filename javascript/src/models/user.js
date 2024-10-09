@@ -2,7 +2,6 @@ import { School } from './school.js';
 
 class User {
     constructor(data) {
-        this._jsonData = data;
         this.isStudent = data.is_student;
         this.isParent = data.is_parent;
         this.plusActive = data.plus_active;
@@ -15,13 +14,9 @@ class User {
         this.locale = data.own_data.locale;
         this.school = new School(data.user[0].school[0]);
     }
-
-    json() {
-        return this._jsonData;
-    }
-
+    
     toString() {
-        return `User(id=${this.id})`;
+        return `User(id=${this.id}, name=${this.name})`;
     }
 }
 
